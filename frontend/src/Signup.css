@@ -1,0 +1,41 @@
+.signUp-page{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formBlock{
+    border-radius: 20px;
+    width: 300px;
+    box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.4);
+}
+
+
+.form > * {
+    padding: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.inputs{
+    display: flex;
+    flex-direction: column;
+}
+.inputs >*{
+    margin-bottom: 10px;
+}
+
+.submitButton{
+    margin-top: 30px;
+    text-align: center;
+}
+
+button{
+    border-radius:5px;
+    padding: 5px;
+}
+
+a{
+    color: black;
+}
