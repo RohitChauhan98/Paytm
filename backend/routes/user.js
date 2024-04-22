@@ -121,7 +121,7 @@ userRouter.post("/me", async (req, res) => {
   var decode = jwt.verify(token, JWT_SECRET);
   console.log(decode);
   const user = await User.findOne({_id: decode.userId});
-  console.log(user);
+  console.log(user)
 
   res.json({
     name: user.firstName,
@@ -130,7 +130,10 @@ userRouter.post("/me", async (req, res) => {
 });
 
 userRouter.get("/bulk", async (req, res) => {
-  const filter = req.query.filter || "";
+  var filter = req.query.filter || "";
+  if(filter.charCodeAt(0) >= 97 && filter.charCodeAt(0) <=122){
+    filter = filter.charAt(0).toUpperCase() + filter.slice(1);
+  }
   const users = await User.find({
     $or: [
       {

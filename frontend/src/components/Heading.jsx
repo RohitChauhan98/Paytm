@@ -6,7 +6,7 @@ function Heading(props) {
             {props.size === "mid" ? (
                 <h3>{props.title}</h3>
                 ) : (
-                    <h1>{props.title}</h1>
+                    <h1 className="text-4xl text-center mt-10">{props.title}</h1>
             )}
         </div>
     );

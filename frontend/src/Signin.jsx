@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Heading from "./components/Heading";
-import "./Signup.css";
 import Input from "./components/Input";
 import Button from "./components/Button";
 import axios from "axios";
@@ -12,12 +11,12 @@ function Signin() {
     const navigate = useNavigate();
 
     return (
-        <div className="signUp-page">
-            <div className="formBlock form">
+        <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-4/5 rounded-xl shadow-2xl shadow-black-500/50  md:w-1/2 xl:w-1/4">
                 <Heading title="Signin" />
                 <Input inputTitle="Email" stateUpdater={setEmail} />
                 <Input inputTitle="Password" stateUpdater={setPass} />
-                <div className="submitButton">
+                <div className="text-center">
                     <Button buttonName="Sign in" click={async () => {
                         const response = await axios.post("http://localhost:3000/api/v1/user/signin", {
                             userName: email,
@@ -26,7 +25,7 @@ function Signin() {
                         localStorage.setItem("token", response.data.token);
                         navigate("/dashboard");
                     }} />
-                    <p>
+                    <p className="m-3">
                         Don&apos;t have an account? <a href="http://localhost:5173/signup">Sign up</a>
                     </p>
                 </div>

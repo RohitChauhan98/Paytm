@@ -1,48 +1,81 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./SendMoney.css"
 
-function SendMoney(props) {
-    const [amount, setAmount] = useState(0);
+function SendMoney() {
+    const [amount, setAmount] = useState(null);
+    const [description, setDescription] = useState("")
+    const hiddenElementRef = useRef(null);
+    const [characterWidth, setCharacterWidth] = useState(null);
+
     const [searchParams] = useSearchParams();
     const id = searchParams.get("id");
     const name = searchParams.get("name");
     const navigate = useNavigate();
 
-    return (
-        <div className="payUser">
-            <div><h2>You are Paying</h2></div>
-            <div className="reciever">
-                <Avatar sx={{ bgcolor: deepOrange[500] }}>{name[0]}</Avatar>
-                <h2>{name}</h2>
-            </div>
-            <div className="amount">
-                    <h1>₹</h1>
-                    <input className="amountInput" type="number" placeholder="0" onChange={(e) => {
-                        setAmount(e.target.value);
-                    }} />
-            </div>
+    // useEffect(() => {
+    //     axios.
+    // })
 
-            <input className="description" type="text" spellCheck="false" placeholder="Add Description" />
-            <Button variant="contained" className="payBtn" color="success" onClick={() => {
-                axios.post("http://localhost:3000/api/v1/account/transfer", {
-                    to: id,
-                    amount: amount
-                },
-                    {
-                        headers: {
-                            Authorization: "Bearer " + localStorage.getItem("token")
-                        }
-                    })
-                navigate("/dashboard");
-            }}>
-                Pay
-            </Button>
+    useEffect(() => {
+        if (!hiddenElementRef.current) return;
+
+        const getCharacterWidth = (character) => {
+            const hiddenElement = hiddenElementRef.current;
+            hiddenElement.textContent = character;
+            const width = hiddenElement.offsetWidth;
+            return width;
+        };
+
+        const character = description; // Or any character you want to measure
+        const width = getCharacterWidth(character);
+        setCharacterWidth(width);
+    }, [description]);
+
+    return (
+        <div className="flex justify-center flex-col  m-10">
+            <div className="m-auto">
+
+                <Avatar sx={{ bgcolor: deepOrange[500] }}>{name[0]}</Avatar>
+            </div>
+            <div className="m-auto text-xl mb-5">
+                <h2>Paying {name}</h2>
+            </div>
+            <div className="m-auto flex text-4xl">
+                <h1>₹</h1>
+                <input style={{ width: `${amount === null ? 20 : amount.toString().length * 20}px` }} className="ml-2 appearance-none outline-none focus:border-transparent" type="number" placeholder="0" onChange={(e) => {
+                    setAmount(e.target.value);
+                }} />
+            </div>
+            <div className="m-auto my-5">
+                <input style={{ width: `${description === "" ? 120 : characterWidth}px` }} className=" outline-none focus:border-transparent" type="text" spellCheck="false" placeholder="Add Description" onChange={(e) => {
+                    setDescription(e.target.value);
+                }} />
+            </div>
+            <div className="m-auto my-10">
+                <Button variant="contained" className="w-40 flex" color="success" onClick={() => {
+                    axios.post("http://localhost:3000/api/v1/account/transfer", {
+                        to: id,
+                        amount: amount
+                    },
+                        {
+                            headers: {
+                                Authorization: "Bearer " + localStorage.getItem("token")
+                            }
+                        })
+                    navigate("/dashboard");
+                }}>
+                    Pay
+                </Button>
+
+            </div>
+            <div className="border-2 m-auto opacity-0" ref={hiddenElementRef}>
+                {description}
+            </div>
         </div>
     );
 }
