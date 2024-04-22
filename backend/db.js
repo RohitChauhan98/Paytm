@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-mongoose.connect('mongodb+srv://rc56951:<password>@cluster0.o5mk8eu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://rc56951:Fwi2zsRYWac7cW42@cluster0.o5mk8eu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 
 const userSchema = new Schema({
     firstName: {
