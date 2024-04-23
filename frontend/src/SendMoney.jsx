@@ -58,7 +58,7 @@ function SendMoney() {
             </div>
             <div className="m-auto my-10">
                 <Button variant="contained" className="w-40 flex" color="success" onClick={() => {
-                    axios.post("http://localhost:3000/api/v1/account/transfer", {
+                    axios.post("https://paytmbackend.rohitchauhan.site/api/v1/account/transfer", {
                         to: id,
                         amount: amount
                     },

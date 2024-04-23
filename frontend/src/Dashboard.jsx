@@ -15,7 +15,7 @@ function Dashboard() {
 
     useEffect(() => {
 
-        axios.get("http://localhost:3000/api/v1/user/bulk")
+        axios.get("https://paytmbackend.rohitchauhan.site/api/v1/user/bulk")
             .then(response => {
                 setUsers(response.data.user);
             })
@@ -23,12 +23,12 @@ function Dashboard() {
     }, []);
 
     useEffect(() => {
-        axios.post("http://localhost:3000/api/v1/user/me", {
+        axios.post("https://paytmbackend.rohitchauhan.site/api/v1/user/me", {
             token: localStorage.getItem("token")
         })
             .then(response => {
                 setId(response.data.id);
-                axios.get("http://localhost:3000/api/v1/account/balance", {
+                axios.get("https://paytmbackend.rohitchauhan.site/api/v1/account/balance", {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token")
                     }

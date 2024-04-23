@@ -22,7 +22,7 @@ function Signup() {
                 <Input inputTitle="Password" stateUpdater={setPass} />
                 <div className="text-center">
                     <Button buttonName="Sign up" click={async() => {
-                        const response = await axios.post("http://localhost:3000/api/v1/user/signup", {
+                        const response = await axios.post("https://paytmbackend.rohitchauhan.site/api/v1/user/signup", {
                             userName: email,
                             firstName: firstname,
                             lastName: lastname,
