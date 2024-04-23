@@ -12,20 +12,23 @@ import { useEffect, useState } from 'react';
 function App() {
   const [name, setName] = useState("");
 
-  axios.post("https://paytmbackend.rohitchauhan.site/api/v1/user/me", {
-    token: localStorage.getItem("token")
-  }).then(response => {
-    setName(response.data.name);
-  })
+  useEffect(() => {
+    axios.post("https://paytmbackend.rohitchauhan.site/api/v1/user/me", {
+      token: localStorage.getItem("token")
+    }).then(response => {
+      setName(response.data.name);
+    })
+  }, [])
+
+
 
   const isSignupOrSignin = () => {
-    return location.pathname === '/signup' || location.pathname === '/signin';
+    return location.pathname === '/signup' || location.pathname === '/signin' || location.pathname === '/';
   };
 
   return (
     <>
       <BrowserRouter>
-        {/* <Header name={name} /> */}
         {!isSignupOrSignin() && <Header name={name} />}
         <AppContent />
       </BrowserRouter>

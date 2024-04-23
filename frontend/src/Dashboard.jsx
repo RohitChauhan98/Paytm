@@ -7,7 +7,6 @@ import User from "./components/User"
 
 function Dashboard() {
     const [users, setUsers] = useState([]);
-    // const [filter, setFilter] = useState("")
     const [id, setId] = useState("");
     const [balance, setBalance] = useState("");
 
