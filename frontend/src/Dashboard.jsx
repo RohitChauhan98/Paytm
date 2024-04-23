@@ -7,6 +7,7 @@ import User from "./components/User"
 
 function Dashboard() {
     const [users, setUsers] = useState([]);
+    const [name, setName] = useState();
     const [id, setId] = useState("");
     const [balance, setBalance] = useState("");
 
@@ -18,6 +19,13 @@ function Dashboard() {
             .then(response => {
                 setUsers(response.data.user);
             })
+
+        axios.post("https://paytmbackend.rohitchauhan.site/api/v1/user/me", {
+            token: localStorage.getItem('token')
+        })
+        .then(response => {
+            setName(response.data.name)
+        })
             
     }, []);
 
@@ -46,6 +54,7 @@ function Dashboard() {
         <div className="bg-slate-200">
             <div className="md:w-1/2 lg:w-1/3 m-auto" >
                 <div className="font-medium ml-5 ">
+                    <p className="text-xl text-gray-500">Hello! {name}</p>
                     <h3 className="text-5xl">₹ {Math.trunc(balance)}</h3>
                     <p className="text-md text-slate-600 font-light">Available balance</p>
                 </div>
