@@ -26,7 +26,7 @@ function Signin() {
                         navigate("/dashboard");
                     }} />
                     <p className="m-3">
-                        Don&apos;t have an account? <a href="http://localhost:5173/signup">Sign up</a>
+                        Don&apos;t have an account? <a href="https://paytmbackend.rohitchauhan.site/signup">Sign up</a>
                     </p>
                 </div>
             </div>
