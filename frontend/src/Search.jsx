@@ -10,7 +10,7 @@ export const Search = () => {
     const [user, setUser] = useState([])
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/v1/user/bulk/?filter=${filter}`)
+        axios.get(`https://paytmbackend.rohitchauhan.site/api/v1/user/bulk/?filter=${filter}`)
         .then(response => {
             setUser(response.data.user)
         })

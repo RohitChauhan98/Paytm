@@ -38,8 +38,6 @@ const AppContent = () => {
   useEffect(() => {
     if (localStorage.getItem('token') !== null) {
       navigate('/dashboard')
-    } else {
-      navigate('/signup')
     }
   }, [])
   return <Routes>
