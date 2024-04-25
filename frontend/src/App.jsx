@@ -19,12 +19,12 @@ function App() {
       setName(response.data.name);
     })
   }, [])
-
-
-
+  
+  
   const isSignupOrSignin = () => {
     return location.pathname === '/signup' || location.pathname === '/signin' || location.pathname === '/';
   };
+
 
   return (
     <>

@@ -3,11 +3,13 @@ import Send from "./assets/send.svg"
 import axios from "axios";
 import { Avatar } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 
 
 export const Search = () => {
     const [filter ,setFilter] = useState("");
     const [user, setUser] = useState([])
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`https://paytmbackend.rohitchauhan.site/api/v1/user/bulk/?filter=${filter}`)
@@ -15,7 +17,7 @@ export const Search = () => {
             setUser(response.data.user)
         })
     }, [filter])
-    console.log(user);
+
     return <div className="m-8 flex justify-center">
         <div className="w-full sm:w-4/5 md:w-1/2 lg:w-1/3">
             <form>
@@ -36,8 +38,9 @@ export const Search = () => {
                             <Avatar sx={{ bgcolor: deepOrange[500] }} className="">{u.firstName[0]}</Avatar>
                             <div className="ml-4">{u.firstName} {u.lastName}</div>
                         </div>
-                        <div className="w-10 h-10">
-                            <img className="" src={Send} alt="" />
+                        <div className="w-10 h-10" >
+                            <img className="" src={Send} alt="" onClick={() => {console.log("/sendmoney?id=" + user._id + "&name=" + user.firstName);
+                            navigate("/sendmoney?id=" + u._id + "&name=" + u.firstName)}}/>
                         </div>
                     </div>
                 )}
