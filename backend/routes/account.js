@@ -14,6 +14,25 @@ router.get('/balance', authMiddleware, async function(req, res){
     })
 })
 
+router.update('/addBalance', authMiddleware, async function(req, res){
+    const addAmount = req.body;
+    const acc = await Account.findOne({
+        userId: req.userId
+    })
+
+    if(acc){
+        acc.balance = acc.balance + addAmount;
+    }
+    else{
+        return res.json({
+            message: "Not able add amount to your account!"
+        })
+    }
+    res.json({
+        message: `Amount ${addAmount} is added to your Account`
+    })
+})
+
 
 router.post('/transfer', authMiddleware, async (req, res) => {
     

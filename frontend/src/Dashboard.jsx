@@ -5,14 +5,16 @@ import { Features } from "./Features";
 import { Utilities } from "./Utilities";
 import User from "./components/User"
 
+
+
 function Dashboard() {
     const [users, setUsers] = useState([]);
     const [name, setName] = useState();
     const [id, setId] = useState("");
     const [balance, setBalance] = useState("");
-
     const navigate = useNavigate();
 
+    
     useEffect(() => {
 
         axios.get("https://paytmbackend.rohitchauhan.site/api/v1/user/bulk")
@@ -23,10 +25,10 @@ function Dashboard() {
         axios.post("https://paytmbackend.rohitchauhan.site/api/v1/user/me", {
             token: localStorage.getItem('token')
         })
-        .then(response => {
-            setName(response.data.name)
-        })
-            
+            .then(response => {
+                setName(response.data.name)
+            })
+
     }, []);
 
     useEffect(() => {
@@ -72,13 +74,18 @@ function Dashboard() {
                         </div>
                     </div>
                 </div>
-                
+
                 {/* <div className="flex justify-center">
                     <input className="border-2 rounded-lg text-lg p-1 pl-4 mt-10 mb-5" type="text" placeholder="Search user" onChange={(e)=>{
                         setFilter(e.target.value);
                     }} />
                 </div> */}
             </div>
+
+
+
+
+           
 
         </div>
     )
