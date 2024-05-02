@@ -4,17 +4,29 @@ import { useNavigate } from 'react-router-dom';
 import { Features } from "./Features";
 import { Utilities } from "./Utilities";
 import User from "./components/User"
+import { Header } from "./components/Header";
 
 
 
 function Dashboard() {
     const [users, setUsers] = useState([]);
     const [name, setName] = useState();
-    const [id, setId] = useState("");
+    // const [id, setId] = useState("");
     const [balance, setBalance] = useState("");
     const navigate = useNavigate();
 
-    
+    //     const [name, setName] = useState("");
+
+    //   useEffect(() => {
+    //     axios.post("https://paytmbackend.rohitchauhan.site/api/v1/user/me", {
+    //       token: localStorage.getItem("token")
+    //     }).then(response => {
+    //       setName(response.data.name);
+    //     })
+    //   }, [])
+
+
+
     useEffect(() => {
 
         axios.get("https://paytmbackend.rohitchauhan.site/api/v1/user/bulk")
@@ -25,9 +37,9 @@ function Dashboard() {
         axios.post("https://paytmbackend.rohitchauhan.site/api/v1/user/me", {
             token: localStorage.getItem('token')
         })
-            .then(response => {
-                setName(response.data.name)
-            })
+        .then(response => {
+            setName(response.data.name)
+        })
 
     }, []);
 
@@ -36,7 +48,8 @@ function Dashboard() {
             token: localStorage.getItem("token")
         })
             .then(response => {
-                setId(response.data.id);
+                // setId(response.data.id);
+                console.log(response)
                 axios.get("https://paytmbackend.rohitchauhan.site/api/v1/account/balance", {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token")
@@ -51,41 +64,39 @@ function Dashboard() {
     }, [])
 
 
-
     return (
-        <div className="bg-slate-200">
-            <div className="md:w-1/2 lg:w-1/3 m-auto" >
-                <div className="font-medium ml-5 ">
-                    <p className="text-xl text-gray-500">Hello! {name}</p>
-                    <h3 className="text-5xl">₹ {Math.trunc(balance)}</h3>
-                    <p className="text-md text-slate-600 font-light">Available balance</p>
-                </div>
-                <div>
-                    <Features />
-                </div>
-                <div className="mt-10 mx-2 p-6 rounded-3xl bg-white">
-                    <Utilities />
-                    <div className="mt-10 pt-5 border-t-2">
-                        <p className="text-2xl font-semibold">People</p>
-                        <div className="grid grid-cols-4 gap-4 mt-5">
-                            {users.map((user) => <User key={user._id} firstName={user.firstName} lastName={user.lastName} click={() => {
-                                navigate("/sendmoney?id=" + user._id + "&name=" + user.firstName);
-                            }} />)}
+        <div>
+            {name && <Header name={name} />}
+            <div className="bg-slate-200">
+                <div className="md:w-1/2 lg:w-1/3 m-auto" >
+                    <div className="font-medium ml-5 ">
+                        <p className="text-xl text-gray-500">Hello! {name}</p>
+                        <h3 className="text-5xl">₹ {Math.trunc(balance)}</h3>
+                        <p className="text-md text-slate-600 font-light">Available balance</p>
+                    </div>
+                    <div>
+                        <Features />
+                    </div>
+                    <div className="mt-10 mx-2 p-6 rounded-3xl bg-white">
+                        <Utilities />
+                        <div className="mt-10 pt-5 border-t-2">
+                            <p className="text-2xl font-semibold">People</p>
+                            <div className="grid grid-cols-4 gap-4 mt-5">
+                                {users.map((user) => <User key={user._id} firstName={user.firstName} lastName={user.lastName} click={() => {
+                                    navigate("/sendmoney?id=" + user._id + "&name=" + user.firstName);
+                                }} />)}
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                {/* <div className="flex justify-center">
+                    {/* <div className="flex justify-center">
                     <input className="border-2 rounded-lg text-lg p-1 pl-4 mt-10 mb-5" type="text" placeholder="Search user" onChange={(e)=>{
                         setFilter(e.target.value);
                     }} />
                 </div> */}
+                </div>
+
             </div>
-
-
-
-
-           
 
         </div>
     )

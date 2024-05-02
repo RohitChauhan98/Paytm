@@ -1,55 +1,28 @@
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import Signup from './Signup';
 import Signin from './Signin';
 import Dashboard from './Dashboard';
 import SendMoney from './SendMoney';
 import "./index.css"
 import { Search } from './Search';
-import { Header } from './components/Header';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { History } from './History';
 
 function App() {
-  const [name, setName] = useState("");
-
-  useEffect(() => {
-    axios.post("https://paytmbackend.rohitchauhan.site/api/v1/user/me", {
-      token: localStorage.getItem("token")
-    }).then(response => {
-      setName(response.data.name);
-    })
-  }, [])
   
-  
-  const isSignupOrSignin = () => {
-    return location.pathname === '/signup' || location.pathname === '/signin' || location.pathname === '/';
-  };
-
-
   return (
     <>
       <BrowserRouter>
-        {!isSignupOrSignin() && <Header name={name} />}
-        <AppContent />
+        <Routes>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/sendmoney" element={<SendMoney />} />
+          <Route path="/searchUser" element={<Search />} />
+          <Route path="/history" element={<History />} />
+        </Routes>
       </BrowserRouter>
     </>
   );
-}
-
-const AppContent = () => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (localStorage.getItem('token') !== null) {
-      navigate('/dashboard')
-    }
-  }, [])
-  return <Routes>
-    <Route path="/signup" element={<Signup />} />
-    <Route path="/signin" element={<Signin />} />
-    <Route path="/dashboard" element={<Dashboard />} />
-    <Route path="/sendmoney" element={<SendMoney />} />
-    <Route path="/searchUser" element={<Search />} />
-  </Routes>
 }
 
 export default App

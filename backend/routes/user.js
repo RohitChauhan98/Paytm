@@ -15,7 +15,6 @@ const signupSchema = zod.object({
 });
 
 userRouter.post("/signup", async (req, res, next) => {
-  console.log(req.body);
   const { success } = signupSchema.safeParse(req.body);
   if (!success) {
     return res.status(411).json({
@@ -119,10 +118,12 @@ userRouter.put("/", authMiddleware, async (req, res) => {
 userRouter.post("/me", async (req, res) => {
   const token = req.body.token;
   var decode = jwt.verify(token, JWT_SECRET);
-  console.log(decode);
   const user = await User.findOne({_id: decode.userId});
-  console.log(user)
-
+  if(!user){
+    return res.status(400).json({
+      message: "User doesn't exists"
+    })
+  }
   res.json({
     name: user.firstName,
     id: user._id

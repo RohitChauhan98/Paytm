@@ -16,9 +16,11 @@ import {
 } from "@/components/ui/drawer"
 import { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 
 export const Features = () => {
+    const navigate = useNavigate();
     return <div className="flex justify-around mt-10">
         <div>
             <button className="p-5 rounded-3xl bg-slate-900">
@@ -37,7 +39,7 @@ export const Features = () => {
             </div>
         </div>
         <div>
-            <button className=" p-5 rounded-3xl bg-slate-900">
+            <button className=" p-5 rounded-3xl bg-slate-900" onClick={() => {navigate('/history')}}>
                 <img src={History} alt="" />
             </button>
             <div className="text-center text-pretty pt-2">
@@ -63,12 +65,27 @@ function DrawerButton() {
     }
 
     function addAmount(){
-        axios.update('https://paytmbackend.rohitchauhan.site/api/v1/account/addBalance', {
+        axios.post('https://paytmbackend.rohitchauhan.site/api/v1/account/addBalance',{
             amount: amount
+        },{
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
         })
         .then(response => {
             console.log(response)
+            window.location.reload(false);
         })
+
+        // axios.post('https://paytmbackend.rohitchauhan.site/api/v1/account/history', {
+        //     amount: amount,
+        // },{
+        //     headers: {
+        //         Authorization: "Bearer "+ localStorage.getItem("token")
+        //     }
+        // }).then(response => {
+        //     console.log(response)
+        // })
     }
 
     return <Drawer>

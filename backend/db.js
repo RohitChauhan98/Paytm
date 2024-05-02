@@ -25,29 +25,54 @@ const userSchema = new Schema({
         minLength: 3,
         maxLength: 30
     },
-    password:{
+    password: {
         type: String,
         required: true,
-        minLength:6
+        minLength: 6
     }
 })
 
 
 const accountSchema = new Schema({
     userId: {
-        type: Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId,
         ref: "user",
         required: true
     },
     balance: {
         type: Number,
-        required: true,     
+        required: true,
     }
 })
 
+const historySchema = new Schema({
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+        required: true
+    },
+    to:{
+        type: String
+    },
+    from: {
+        type: String
+    },
+    transactionType: {
+        type: String,
+        required: true
+    },
+    amount: {
+        type: Number,
+        required: true
+    }
+},
+    { timestamps: true }
+)
+
 const User = mongoose.model('user', userSchema);
 const Account = mongoose.model('bank', accountSchema);
+const History = mongoose.model("history", historySchema);
 
 module.exports = {
-    User, Account
+    User, Account, History
 }

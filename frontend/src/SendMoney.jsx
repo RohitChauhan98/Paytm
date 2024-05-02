@@ -5,6 +5,7 @@ import { deepOrange } from '@mui/material/colors';
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Header } from "./components/Header";
 
 function SendMoney() {
     const [amount, setAmount] = useState(null);
@@ -17,9 +18,15 @@ function SendMoney() {
     const name = searchParams.get("name");
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     axios.
-    // })
+    const [username, setUsername] = useState("");
+
+    useEffect(() => {
+        axios.post("https://paytmbackend.rohitchauhan.site/api/v1/user/me", {
+            token: localStorage.getItem("token")
+        }).then(response => {
+            setUsername(response.data.name);
+        })
+    }, [])
 
     useEffect(() => {
         if (!hiddenElementRef.current) return;
@@ -36,46 +43,69 @@ function SendMoney() {
         setCharacterWidth(width);
     }, [description]);
 
+    function sendMoney() {
+        axios.post("https://paytmbackend.rohitchauhan.site/api/v1/account/transfer", {
+            to: id,
+            amount: amount
+        },
+            {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            })
+
+        axios.post('https://paytmbackend.rohitchauhan.site/api/v1/account/history', {
+            amount: amount,
+            to: id,
+        }, {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
+        }).then(response => {
+            console.log(response)
+        })
+
+
+
+
+        navigate("/dashboard");
+        window.location.reload(false)
+
+    }
+
     return (
-        <div className="flex justify-center flex-col  m-10">
-            <div className="m-auto">
+        <div>
+            {username && <Header name={username}/>}
+            <div className="flex justify-center flex-col  m-10">
+                <div className="m-auto">
 
-                <Avatar sx={{ bgcolor: deepOrange[500] }}>{name[0]}</Avatar>
-            </div>
-            <div className="m-auto text-xl mb-5">
-                <h2>Paying {name}</h2>
-            </div>
-            <div className="m-auto flex text-4xl">
-                <h1>₹</h1>
-                <input style={{ width: `${amount === null ? 20 : amount.toString().length * 20}px` }} className="ml-2 appearance-none outline-none focus:border-transparent" type="number" placeholder="0" onChange={(e) => {
-                    setAmount(e.target.value);
-                }} />
-            </div>
-            <div className="m-auto my-5">
-                <input style={{ width: `${description === "" ? 120 : characterWidth}px` }} className=" outline-none focus:border-transparent" type="text" spellCheck="false" placeholder="Add Description" onChange={(e) => {
-                    setDescription(e.target.value);
-                }} />
-            </div>
-            <div className="m-auto my-10">
-                <Button variant="contained" className="w-40 flex" color="success" onClick={() => {
-                    axios.post("https://paytmbackend.rohitchauhan.site/api/v1/account/transfer", {
-                        to: id,
-                        amount: amount
-                    },
-                        {
-                            headers: {
-                                Authorization: "Bearer " + localStorage.getItem("token")
-                            }
-                        })
-                    navigate("/dashboard");
-                }}>
-                    Pay
-                </Button>
+                    <Avatar sx={{ bgcolor: deepOrange[500] }}>{name[0]}</Avatar>
+                </div>
+                <div className="m-auto text-xl mb-5">
+                    <h2>Paying {name}</h2>
+                </div>
+                <div className="m-auto flex text-4xl">
+                    <h1>₹</h1>
+                    <input style={{ width: `${amount === null ? 20 : amount.toString().length * 20}px` }} className="ml-2 appearance-none outline-none focus:border-transparent" type="number" placeholder="0" onChange={(e) => {
+                        setAmount(e.target.value);
+                    }} />
+                </div>
+                <div className="m-auto my-5">
+                    <input style={{ width: `${description === "" ? 120 : characterWidth}px` }} className="outline-none focus:border-transparent" type="text" spellCheck="false" placeholder="Add Description" onChange={(e) => {
+                        setDescription(e.target.value);
+                    }} />
+                </div>
+                <div className="m-auto my-10">
+                    <Button variant="contained" className="w-40 flex" color="success" onClick={sendMoney}>
+                        Pay
+                    </Button>
 
+                </div>
+                <div className="border-2 m-auto opacity-0" ref={hiddenElementRef}>
+                    {description}
+                </div>
             </div>
-            <div className="border-2 m-auto opacity-0" ref={hiddenElementRef}>
-                {description}
-            </div>
+
         </div>
     );
 }
