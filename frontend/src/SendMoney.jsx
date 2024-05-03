@@ -6,7 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Header } from "./components/Header";
-import tune from "./assets/sounds/payment_tune.mp3"
+import tune from "./assets/sounds/paymentSound.mp3"
 
 function SendMoney() {
     const [amount, setAmount] = useState(null);
@@ -77,7 +77,7 @@ function SendMoney() {
         setTimeout(() => { 
             navigate("/dashboard"); 
             window.location.reload(false) 
-        }, 3500)
+        }, 2500)
     }
 
     return (
