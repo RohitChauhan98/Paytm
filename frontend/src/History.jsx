@@ -26,9 +26,9 @@ export const History = () => {
     }, [])
 
     console.log(history)
-    return <div>
+    return <div className="">
         {username && <Header name={username}/>}
-    <div className="m-8">
+    <div className="p-8 md:w-1/2 lg:w-1/3 m-auto">
         <div>
             <button type="button" className="text-white bg-gray-600 hover:bg-gray-900 focus:outline-none  focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-6 py-2.5 me-2 mb-2">
                 All
