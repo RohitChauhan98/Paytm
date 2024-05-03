@@ -6,6 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Header } from "./components/Header";
+import tune from "./assets/sounds/payment_tune.mp3"
 
 function SendMoney() {
     const [amount, setAmount] = useState(null);
@@ -52,6 +53,9 @@ function SendMoney() {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("token")
                 }
+            }).then(response => {
+                console.log(response)
+
             })
 
         axios.post('https://paytmbackend.rohitchauhan.site/api/v1/account/history', {
@@ -67,15 +71,18 @@ function SendMoney() {
 
 
 
+        var sound = new Audio(tune);
+        sound.play();
 
-        navigate("/dashboard");
-        window.location.reload(false)
-
+        setTimeout(() => { 
+            navigate("/dashboard"); 
+            window.location.reload(false) 
+        }, 3500)
     }
 
     return (
         <div>
-            {username && <Header name={username}/>}
+            {username && <Header name={username} />}
             <div className="flex justify-center flex-col  m-10">
                 <div className="m-auto">
 
